@@ -1,15 +1,20 @@
 import Layout from "../../components/Layout";
-import Page from "../../components/Page";
-import Storyblok from "../../lib/storyblok";
-import useStoryblok from "../../lib/storyblok-hook";
 
-export default function Isr(props) {
-  const story = useStoryblok(props.story);
+import {
+  useStoryblokState,
+  getStoryblokApi,
+  StoryblokComponent,
+} from "@storyblok/react";
+
+export default function Home({ story }) {
+  story = useStoryblokState(story);
 
   return (
-    <Layout>
-      <Page content={story.content} />
-    </Layout>
+    <div>
+      <Layout>
+        <StoryblokComponent blok={story.content} />
+      </Layout>
+    </div>
   );
 }
 
@@ -25,11 +30,13 @@ export async function getStaticProps({ params }) {
     version: "draft",
   };
 
-  let { data } = await Storyblok.get(`cdn/stories/${params.slug}`, sbParams);
+  const storyblokApi = getStoryblokApi();
+  let { data } = await storyblokApi.get(`cdn/stories/${params.slug}`, sbParams);
 
   return {
     props: {
       story: data ? data.story : false,
+      key: data ? data.story.id : false,
     },
     revalidate: 10,
   };
