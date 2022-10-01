@@ -10,11 +10,9 @@ export default function Home({ story }) {
   story = useStoryblokState(story);
 
   return (
-    <div>
-      <Layout>
-        <StoryblokComponent blok={story.content} />
-      </Layout>
-    </div>
+    <Layout method="Incremental Static Regeneration">
+      <StoryblokComponent blok={story.content} />
+    </Layout>
   );
 }
 

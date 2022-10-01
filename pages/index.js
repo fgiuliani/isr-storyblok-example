@@ -1,5 +1,3 @@
-import Layout from "../components/Layout";
-
 import {
   useStoryblokState,
   getStoryblokApi,
@@ -9,16 +7,10 @@ import {
 export default function Home({ story }) {
   story = useStoryblokState(story);
 
-  return (
-    <div>
-      <Layout>
-        <StoryblokComponent blok={story.content} />
-      </Layout>
-    </div>
-  );
+  return <StoryblokComponent blok={story.content} />;
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps() {
   let slug = "home";
 
   let sbParams = {
@@ -33,6 +25,5 @@ export async function getStaticProps({ params }) {
       story: data ? data.story : false,
       key: data ? data.story.id : false,
     },
-    revalidate: 3600,
   };
 }
